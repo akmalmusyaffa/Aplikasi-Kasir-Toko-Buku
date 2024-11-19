@@ -12,7 +12,9 @@ int login(int role);
 void signup();
 void menu_manager();
 void manager_tambahitem();
+void manager_edititem();
 void menu_kasir();
+void kasir_lihatitem();
 void menu_pelanggan();
 
 
@@ -48,7 +50,8 @@ int main() {
                 if (login(role)) {
                 menu_pelanggan();
                 }
-            } else break;
+            }
+            break;
         
         default:
             printf("Role tidak dikenal.\n");
@@ -73,11 +76,13 @@ void signup(){
     }
 
     printf("Masukkan alamat email: ");
-    scanf("%30s", regis.email);
+    scanf("%29s", regis.email);
     printf("Masukkan username (Maksimal 20 Karakter): ");
-    scanf("%30s", regis.username);
+    scanf("%29s", regis.username);
     printf("Masukkan kata sandi: ");
-    scanf("%30s", regis.password);
+    scanf("%29s", regis.password);
+
+    fwrite(&regis, sizeof(struct user),1, f_signup);
 
     fclose(f_signup);
 }
@@ -85,11 +90,9 @@ void signup(){
 int login(int role) {
     char username[20], password[20];
     printf("Masukkan username: ");
-    scanf("%20s", username); 
-           /*^ Membatasi jumlah input*/
+    scanf("%19s", username);
     printf("Masukkan kata sandi: ");
-    scanf("%20s", password);
-           /*^ Membatasi jumlah input*/
+    scanf("%19s", password);
     switch (role){
         case 1:
             if (strcmp(username, "manager") == 0 && strcmp(password, "1234") == 0) {
@@ -102,6 +105,7 @@ int login(int role) {
             }
             break;
         case 3:
+        {
             FILE* flogin;
             struct user login;
             flogin = fopen("user.dat", "rb");
@@ -116,6 +120,7 @@ int login(int role) {
                 }
             }
             fclose(flogin);
+        }
             break;
         default:
             break;
@@ -128,6 +133,7 @@ void manager_tambahitem() {
     FILE *f_biner;
     struct tokbuk data;
     f_biner = fopen("databuku.dat", "ab");
+    
     if (!f_biner) {
         printf("Gagal membuka file.\n");
         return;
@@ -155,23 +161,23 @@ void manager_tambahitem() {
     printf("Data berhasil ditambahkan.\n");
 }
 
-void kasir_lihatitem() {
-    FILE *f_biner;
-    struct tokbuk data;
+void manager_edititem(){
+    FILE* fedit = fopen("databuku.dat", "rb+"); 
+    struct tokbuk edit;
+    char kodeid[20];
 
-    f_biner = fopen("databuku.dat", "rb");
-    if (!f_biner) {
-        printf("Gagal membuka file.\n");
-        return;
+    printf("Masukkan kode ID: ");
+    scanf("%s", kodeid);
+
+
+    while(fread(&edit, sizeof(struct tokbuk), 1, fedit)){
+        if(strcmp(edit.id, kodeid)==0){
+            
+        }
     }
 
-    printf(" %-15s  %-30s  %-20s  %-7s  %-6s  %-7s \n", "ID", "Judul Buku", "Penulis", "Harga", "Diskon", "Stok");
 
-    while (fread(&data, sizeof(struct tokbuk), 1, f_biner) != 0) {
-        printf(" %-15.15s  %-30.30s  %-20.20s  %-7d  %-6d  %-7d \n", data.id, data.buku, data.penulis, data.harga, data.diskon, data.stock);
-    }
-
-    fclose(f_biner);
+    
 }
 
 void menu_manager() {
@@ -238,6 +244,25 @@ void menu_kasir() {
     } while (pilihan != 3);
 }
 
+void kasir_lihatitem() {
+    FILE *f_biner;
+    struct tokbuk data;
+
+    f_biner = fopen("databuku.dat", "rb");
+    if (!f_biner) {
+        printf("Gagal membuka file.\n");
+        return;
+    }
+
+    printf(" %-15s  %-30s  %-20s  %-7s  %-6s  %-7s \n", "ID", "Judul Buku", "Penulis", "Harga", "Diskon", "Stok");
+
+    while (fread(&data, sizeof(struct tokbuk), 1, f_biner) != 0) {
+        printf(" %-15.15s  %-30.30s  %-20.20s  %-7d  %-6d  %-7d \n", data.id, data.buku, data.penulis, data.harga, data.diskon, data.stock);
+    }
+
+    fclose(f_biner);
+}
+
 void menu_pelanggan(){
     int pilihan;
     do{
@@ -260,5 +285,4 @@ void menu_pelanggan(){
 
     } while (pilihan != 2);
 }
-
 
