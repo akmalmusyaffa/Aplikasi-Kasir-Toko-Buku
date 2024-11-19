@@ -1,4 +1,5 @@
-[https://telkomuniversityofficial-my.sharepoint.com/:u:/g/personal/ahmadmusyaffaakmal_student_telkomuniversity_ac_id/EcSlLcNEZAtImD_U1_htC6MBhoUqYELOxjjBI-_jiaA06g?e=b3el1V&action=edit&or=PrevEdit] (# Aplikasi-Kasir-Toko-Buku)
+# [Aplikasi-Kasir-Toko-Buku](https://telkomuniversityofficial-my.sharepoint.com/:u:/g/personal/ahmadmusyaffaakmal_student_telkomuniversity_ac_id/EcSlLcNEZAtImD_U1_htC6MBhoUqYELOxjjBI-_jiaA06g?e=b3el1V&action=edit&or=PrevEdit)
+
 Aplikasi Kasir Toko Buku adalah  sebuah program yang didesain untuk memudahkan karyawan toko buku dalam mengelola toko buku. Program ini memiliki fungsi untuk menghitung total belanja dari pengunjung, mengelola dan mensortir buku dan item dagangan, mengecek stok barang, dan menampilkan laporan pemasukan. Program ini juga menyediakan fitur bagi pelanggan untuk melihat buku-buku yang tersedia dan self-reservation.
 
 Ada beberapa peran serta fungsi – fungsi yang berbeda dalam program ini,
