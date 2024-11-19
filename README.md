@@ -5,7 +5,7 @@ Aplikasi Kasir Toko Buku adalah  sebuah program yang didesain untuk memudahkan k
 Ada beberapa peran serta fungsi – fungsi yang berbeda dalam program ini,
 ## A.	Manajer
 Ketika login/masuk sebagai manajer, program akan memberikan beberapa pilihan fungsi,
-1. **Tambah Item : manajer dapat menambahkan buku baru beserta informasi tentang barang tersebut.
+1. **Tambah Item** : manajer dapat menambahkan buku baru beserta informasi tentang barang tersebut.
 2. **Update Item** : manajer dapat mengubah informasi dari barang yang telah ada di database program. Dalam fungsi update item, program akan menampilkan barang yang ada di database, kemudian user dapat memasukkan kode ID dari barang yang ingin diubah informasinya.
 3. **Hapus Item** : Manajer dapat menghapus informasi item yang tersedia di database program. Dalam fungsi update item, program akan menampilkan barang yang ada di database, kemudian user dapat memasukkan kode ID dari barang yang ingin dihapus informasinya.
 4. **Diskon** : Manajer dapat mengaplikasikan diskon pada barang yang tersedia. Dalam fungsi diskon, program akan menampilkan barang yang ada di database, kemudian user dapat memasukkan kode ID dari barang yang ingin diubah diskonnya.
