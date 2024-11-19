@@ -1,3 +1,12 @@
+oleh:
+| Nama                       | NIM          |
+|----------------------------|--------------|
+| Ahmad Musyaffa Akmal       | 101022400084 |
+| Fedya Jelila               | 101022400041 | 
+| Moh. Fathirrochman Yasin   | 101022400093 |
+| Yales Nof Romy T. Mendrofa | 101022400075 |
+## Kelas EL-48-03
+## Kelompok Kadang Koding
 # Aplikasi-Kasir-Toko-Buku
 Aplikasi Kasir Toko Buku adalah  sebuah program yang didesain untuk memudahkan karyawan toko buku dalam mengelola toko buku. Program ini memiliki fungsi untuk menghitung total belanja dari pengunjung, mengelola dan mensortir buku dan item dagangan, mengecek stok barang, dan menampilkan laporan pemasukan. Program ini juga menyediakan fitur bagi pelanggan untuk melihat buku-buku yang tersedia dan self-reservation.
 
