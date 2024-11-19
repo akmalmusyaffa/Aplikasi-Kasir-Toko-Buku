@@ -1,5 +1,6 @@
 # Aplikasi-Kasir-Toko-Buku
-Aplikasi Kasir Toko Buku adalah  sebuah program yang didesain untuk memudahkan karyawan toko buku dalam mengelola toko buku. Program ini memiliki fungsi untuk menghitung total belanja dari pengunjung, mengelola dan mensortir buku dan item dagangan, mengecek stok barang, dan menampilkan laporan pemasukan.
+Aplikasi Kasir Toko Buku adalah  sebuah program yang didesain untuk memudahkan karyawan toko buku dalam mengelola toko buku. Program ini memiliki fungsi untuk menghitung total belanja dari pengunjung, mengelola dan mensortir buku dan item dagangan, mengecek stok barang, dan menampilkan laporan pemasukan. Program ini juga menyediakan fitur bagi pelanggan untuk melihat buku-buku yang tersedia dan self-reservation.
+
 Ada beberapa peran serta fungsi – fungsi yang berbeda dalam program ini,
 ## A.	Manajer
 Ketika login/masuk sebagai manajer, program akan memberikan beberapa pilihan fungsi,
