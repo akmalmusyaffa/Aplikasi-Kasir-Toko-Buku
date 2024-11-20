@@ -8,19 +8,29 @@ struct tokbuk {
 struct user {
     char email[30], username[30], password[30];
 };
+struct transaksi{
+    char nama[100][100];
+    int jumlah[100], harga[100], total;
+    char kodetransaksi[7];
+};
 
-int temp;
 int login(int *role);
 void signup();
+/*Manager*/
 void menu_manager();
 void manager_tambahitem();
 void manager_edititem();
+void manager_hapusitem();
+void manager_diskon();
+/*Kasir*/
 void menu_kasir();
 void kasir_lihatitem();
+/*Pelanggan*/
 void menu_pelanggan();
 
 
 int main() {
+    int temp;
     printf("\n~~ Selamat Datang ~~\n");
     printf("Ketik sembarang angka untuk mengakhiri program, 1 untuk memulai: ");
     scanf("%d", &temp);
@@ -65,28 +75,34 @@ int main() {
         printf("Ketik sembarang angka untuk mengakhiri program, 1 untuk memulai: ");
         scanf("%d", &temp);
     }
-
     return 0;
 }
 
 void signup(){
     FILE* f_signup;
     struct user regis;
+    char passver[30];
     f_signup = fopen ("user.dat", "ab");
-    if (!f_signup) {
+    if (f_signup==NULL) {
         printf("Gagal membuka file.\n");
         return;
     }
 
-    printf("Masukkan alamat email: ");
-    scanf("%29s", regis.email);
-    printf("Masukkan username (Maksimal 20 Karakter): ");
-    scanf("%29s", regis.username);
-    printf("Masukkan kata sandi: ");
-    scanf("%29s", regis.password);
-
+    do {
+        printf("Masukkan alamat email: ");
+        scanf("%29s", regis.email);
+        printf("Masukkan username (Maksimal 20 Karakter): ");
+        scanf("%29s", regis.username);
+        printf("Masukkan kata sandi: ");
+        scanf("%29s", regis.password);
+        printf("Verifikasi password");
+        scanf("%29s", passver);
+        if(strcmp(regis.password,passver)!=0){
+            printf("Password yang anda masukkan tidak cocok");
+        }
+    } while (strcmp(regis.password,passver)!=0);
+    
     fwrite(&regis, sizeof(struct user),1, f_signup);
-
     fclose(f_signup);
 }
 
@@ -156,7 +172,7 @@ void menu_manager() {
                 manager_hapusitem();
                 break;
             case 4:
-                printf("Diskon dipilih.\n");
+                manager_diskon();
                 break;
             case 5:
                 printf("Rekapitulasi dan Laporan dipilih.\n");
@@ -206,62 +222,70 @@ void manager_edititem(){
     FILE* fedit = fopen("databuku.dat", "rb+"); 
     struct tokbuk edit;
     char kodeid[20];
-    int angka, flag;
+    int angka, flag = 0;
+
+    if (!fedit) {
+        printf("Gagal membuka file.\n");
+        return;
+    }
 
     printf("Masukkan kode ID: ");
-    scanf("%s", kodeid);
+    scanf("%19s", kodeid);
 
-
-    while(fread(&edit, sizeof(struct tokbuk), 1, fedit)){
-        if(strcmp(edit.id, kodeid)==0){
+    while (fread(&edit, sizeof(struct tokbuk), 1, fedit)) {
+        if (strcmp(edit.id, kodeid) == 0) {
             flag = 1;
-            printf("Informasi Buku: ");
+            printf("Informasi Buku: \n");
             printf(" %-15s  %-30s  %-20s  %-7s  %-6s  %-7s \n", "ID", "Judul Buku", "Penulis", "Harga", "Diskon", "Stok");
             printf(" %-15.15s  %-30.30s  %-20.20s  %-7d  %-6d  %-7d \n", edit.id, edit.buku, edit.penulis, edit.harga, edit.diskon, edit.stock);
 
-            printf("Masukkan informasi yang ingin diedit: ");
+            printf("Masukkan informasi yang ingin diedit (1: ID, 2: Judul Buku, 3: Penulis, 4: Harga, 5: Diskon, 6: Stok, lainnya: selesai): ");
             scanf("%d", &angka);
-            while (angka>=1 && angka<=6) {
-                switch (angka){
+
+            while (angka >= 1 && angka <= 6) {
+                switch (angka) {
                     case 1:
                         printf("Masukkan kode ID: ");
-                        scanf("%s", edit.id);
+                        scanf("%19s", edit.id);
                         break;
                     case 2:
                         printf("Masukkan judul buku: ");
-                        scanf("%s", edit.buku);
+                        scanf(" %[^\n]", edit.buku);
                         break;
                     case 3:
                         printf("Masukkan penulis: ");
-                        scanf("%s", edit.penulis);
+                        scanf(" %[^\n]", edit.penulis);
                         break;
                     case 4:
                         printf("Masukkan harga: ");
-                        scanf("%s", edit.harga);
+                        scanf("%d", &edit.harga);
                         break;
                     case 5:
                         printf("Masukkan diskon: ");
-                        scanf("%s", edit.diskon);
+                        scanf("%d", &edit.diskon);
                         break;
                     case 6:
                         printf("Masukkan stok: ");
-                        scanf("%s", edit.stock);
+                        scanf("%d", &edit.stock);
                         break;
                     default:
                         break;
-                    }
-                printf("Masukkan informasi yang ingin diedit: ");
+                }
+                printf("Masukkan informasi yang ingin diedit (1-6, lainnya: selesai): ");
                 scanf("%d", &angka);
             }
+
             fseek(fedit, -sizeof(struct tokbuk), SEEK_CUR);
             fwrite(&edit, sizeof(struct tokbuk), 1, fedit);
             printf("Data buku berhasil diubah.\n");
             break;
         }
     }
-    if (flag==0){
-        printf("Buku tidak ditemukan");
+
+    if (flag == 0) {
+        printf("Buku tidak ditemukan.\n");
     }
+
     fclose(fedit);
 }
 
@@ -313,6 +337,58 @@ void manager_hapusitem(){
 
 }
 
+void manager_diskon(){
+    FILE *fdisc;
+    struct tokbuk diskon;
+    fdisc = fopen("databuku.dat", "rb+");
+    int disc=0, angka,n,ctr=0;
+    char kodeid[100][20];
+    if (fdisc==NULL) {
+        printf("Gagal membuka file.\n");
+        return;
+    }
+    printf("Masukkan besar diskon dalam persen: (1 - 100)\n");
+    scanf("%d", &disc);
+    printf("Aplikasikan diskon ke: (1) Semua barang, (2) Cari barang: \n");
+    scanf("%d", &angka);
+
+    if (angka==1){
+        while(fread(&diskon, sizeof(diskon), 1, fdisc)){
+            diskon.diskon = disc;
+            fseek(fdisc,-sizeof(diskon),SEEK_CUR);
+            fwrite(&diskon, sizeof(diskon), 1, fdisc);
+        }
+        printf("Diskon berhasil diaplikasikan");
+    } else if(disc==2){
+        printf("Masukkan jumlah item yang ingin diubah: ");
+        scanf("%d", &n);
+
+        for(int i = 0; i < n; i++){
+            printf("\nMasukkan kode ID ke-%d: ", i+1);
+            scanf("%19s", kodeid[i]);
+        }
+
+        int j=0;
+        for(int i = 0; i < n; i++){
+            rewind(fdisc);
+            while(fread(&diskon, sizeof(diskon), 1, fdisc)){
+                if(strcmp(diskon.id, kodeid[j])==0){
+                    diskon.diskon = disc;
+                    fseek(fdisc,-sizeof(diskon),SEEK_CUR);
+                    fwrite(&diskon, sizeof(diskon), 1, fdisc);
+                    ctr=1;
+                }
+            }
+            if(ctr){
+                printf("Diskon untuk item ke-%d berhasil diaplikasikan", i+1);
+            } else {
+                printf("Item dengan kode %s tidak ditemukan", kodeid[i]);
+            }
+        }
+    }
+    fclose(fdisc);
+}
+
 void menu_kasir() {
     int pilihan;
     do {
@@ -357,6 +433,7 @@ void kasir_lihatitem() {
 
     fclose(f_biner);
 }
+
 
 void menu_pelanggan(){
     int pilihan;
