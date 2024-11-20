@@ -25,9 +25,13 @@ void manager_diskon();
 /*Kasir*/
 void menu_kasir();
 void kasir_lihatitem();
+void kasir_menupenjualan();
+void kasir_cekstok();
+void kasir_historitransaksi();
+void kasir_cetakstruk();
 /*Pelanggan*/
+void pelanggan_lihatitem();
 void menu_pelanggan();
-
 
 int main() {
     int temp;
@@ -53,19 +57,21 @@ int main() {
             }
             break;
         case 3:
-            printf("Ketik (1) untuk sign up, (2) untuk login\n");
-            scanf("%d", &buyer);
-            if (buyer == 1){
-                signup();
-            } else if (buyer == 2){
-                if (login(&role)) {
-                menu_pelanggan();
+            do {
+                printf("Ketik (1) untuk sign up, (2) untuk login\n");
+                scanf("%d", &buyer);
+                if (buyer == 1){
+                    signup();
+                } else if (buyer == 2){
+                    if (login(&role)) {
+                        menu_pelanggan();
+                        break;
+                    }
+                } else {
+                    printf("Pilihan tidak valid");
                 }
-            } else {
-                printf("Pilihan tidak valid");
-            }
+            } while (buyer==1||buyer==2);
             break;
-        
         default:
             printf("Role tidak dikenal.\n");
             break;
@@ -166,7 +172,7 @@ void menu_manager() {
                 manager_tambahitem();
                 break;
             case 2:
-                printf("Edit Item dipilih.\n");
+                manager_edititem();
                 break;
             case 3:
                 manager_hapusitem();
@@ -250,11 +256,11 @@ void manager_edititem(){
                         break;
                     case 2:
                         printf("Masukkan judul buku: ");
-                        scanf(" %[^\n]", edit.buku);
+                        scanf(" %[^\n]", edit.buku); 
                         break;
                     case 3:
                         printf("Masukkan penulis: ");
-                        scanf(" %[^\n]", edit.penulis);
+                        scanf(" %[^\n]", edit.penulis); 
                         break;
                     case 4:
                         printf("Masukkan harga: ");
